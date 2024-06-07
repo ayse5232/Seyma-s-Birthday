@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seni ilk gördügümde hiç sevmemisdim</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        header {
+            background-color: #333;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .video-container {
+            position: relative;
+            width: 80%;
+            padding-bottom: 45%; /* Maintain aspect ratio 16:9 */
+            display: none; /* initially hidden */
+        }
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .curtain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .curtain::before, .curtain::after {
+            content: '';
+            width: 50%;
+            height: 100%;
+            background-color: #800000;
+        }
+        .curtain.open::before {
+            animation: openLeft 3s forwards;
+        }
+        .curtain.open::after {
+            animation: openRight 3s forwards;
+        }
+        .curtain.close::before {
+            animation: closeLeft 3s forwards;
+        }
+        .curtain.close::after {
+            animation: closeRight 3s forwards;
+        }
+        @keyframes openLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        @keyframes openRight {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(100%); }
+        }
+        @keyframes closeLeft {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(0); }
+        }
+        @keyframes closeRight {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Seni ilk gördügümde hiç sevmemisdim</h1>
+</header>
+
+<div class="video-container">
+    <!-- Hier das Video einbetten -->
+    <video id="video" controls>
+        <source src="Iyiki dogmus.mp4" type="video/mp4">
+        <!-- Sie können zusätzliche Quellen hinzufügen, falls das Video in verschiedenen Formaten vorliegt -->
+        Ihr Browser unterstützt das Video-Tag nicht.
+    </video>
+</div>
+
+<div class="curtain" id="curtain"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const curtain = document.getElementById('curtain');
+        const video = document.getElementById('video');
+        const videoContainer = document.querySelector('.video-container');
+
+        // Open curtain animation
+        curtain.classList.add('open');
+
+        // Wait for the curtain to open before showing the video
+        setTimeout(() => {
+            curtain.style.display = 'none';
+            videoContainer.style.display = 'block';
+            video.play();
+        }, 3000); // Match this duration with the animation duration
+
+        // Close curtain animation when video ends
+        video.addEventListener('ended', function() {
+            curtain.style.display = 'flex';
+            curtain.classList.remove('open');
+            curtain.classList.add('close');
+        });
+    });
+</script>
+
+</body>
+</html>
